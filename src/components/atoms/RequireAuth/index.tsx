@@ -15,6 +15,6 @@ export const RequireAuth: React.FC<Props> = ({ children, redirect }) => {
   } else if (isAuthenticated) {
     return <>{children}</>
   } else {
-    return <div>require auth</div> //<Navigate to={redirect} state={{ from: location }} replace={false} />
+    return <Navigate to={redirect} state={{ from: location }} replace={false} />
   }
 }

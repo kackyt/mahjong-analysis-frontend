@@ -9,15 +9,18 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { DefaultLayout } from './layouts/default'
 import { RequireAuth } from './components/atoms/RequireAuth'
 import { SignIn } from './pages/signin'
+import { OpenAPI } from './apis/analysis'
+import { GamesIndex } from './pages/games'
 
 const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes)
 
 function App() {
   const theme = createTheme({
     palette: {
-      mode: 'dark',
+      mode: 'light',
     },
   })
+  OpenAPI.BASE = import.meta.env.VITE_API_BASE
 
   return (
     <MUThemeProvider theme={theme}>
@@ -30,7 +33,7 @@ function App() {
                 index
                 element={
                   <RequireAuth redirect="/signin">
-                    <h1>Home</h1>
+                    <GamesIndex />
                   </RequireAuth>
                 }
               />

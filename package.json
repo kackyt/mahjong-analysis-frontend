@@ -7,7 +7,8 @@
     "dev": "vite --port 3000",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "generate-api": "openapi --input http://localhost:8000/api/v1/openapi.json --output src/apis/analysis --client axios"
   },
   "dependencies": {
     "@auth0/auth0-react": "^2.2.4",
@@ -15,9 +16,12 @@
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.15.7",
     "@mui/material": "^5.15.7",
+    "@mui/x-date-pickers": "^6.19.3",
     "@sentry/react": "^7.99.0",
     "@sentry/tracing": "^7.99.0",
+    "@textea/json-viewer": "^3.3.1",
     "axios": "^1.6.7",
+    "dayjs": "^1.11.10",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.50.0",
@@ -34,6 +38,7 @@
     "eslint": "^8.55.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
+    "openapi-typescript-codegen": "^0.27.0",
     "typescript": "^5.2.2",
     "vite": "^5.0.8"
   }
