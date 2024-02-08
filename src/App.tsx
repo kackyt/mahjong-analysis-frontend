@@ -11,24 +11,15 @@ import { RequireAuth } from './components/atoms/RequireAuth'
 import { SignIn } from './pages/signin'
 import { OpenAPI } from './apis/analysis'
 import { StatisticsIndex } from './pages/statistics'
-import { useAuth0 } from '@auth0/auth0-react'
-import { useEffect } from 'react'
-import { fetchAPIToken } from './hooks/common/useToken'
 
 const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes)
 
 function App() {
-  const { isLoading, isAuthenticated, getAccessTokenSilently } = useAuth0()
   const theme = createTheme({
     palette: {
       mode: 'light',
     },
   })
-  useEffect(() => {
-    if (!isLoading && isAuthenticated) {
-      fetchAPIToken(getAccessTokenSilently)
-    }
-  }, [isAuthenticated, getAccessTokenSilently, isLoading])
   OpenAPI.BASE = import.meta.env.VITE_API_BASE
 
   return (

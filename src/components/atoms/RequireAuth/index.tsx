@@ -1,20 +1,40 @@
 import { useAuth0 } from '@auth0/auth0-react'
-import { Navigate, useLocation } from 'react-router-dom'
+import { ErrorBoundary } from '@sentry/react'
+import { Suspense } from 'react'
+import { Navigate } from 'react-router-dom'
+import { fetchAPIToken, useAPIToken } from '../../../hooks/common/useToken'
 
 type Props = {
   children?: React.ReactNode
   redirect: string
 }
 
-export const RequireAuth: React.FC<Props> = ({ children, redirect }) => {
-  const { isLoading, isAuthenticated } = useAuth0()
-  const location = useLocation()
+const AsyncComponent = ({ children, redirect }: Props) => {
+  const { data } = useAPIToken()
+  const {
+    isLoading,
+    isAuthenticated,
+    getAccessTokenSilently,
+    getAccessTokenWithPopup,
+  } = useAuth0()
 
-  if (isLoading) {
-    return <h6>Please Wait</h6>
-  } else if (isAuthenticated) {
-    return <>{children}</>
-  } else {
-    return <Navigate to={redirect} state={{ from: location }} replace={false} />
+  if (isLoading) throw new Promise((resolve) => setTimeout(resolve, 100)) // 待機
+
+  if (!isAuthenticated) {
+    return <Navigate to={redirect} />
+  } else if (!data) {
+    throw fetchAPIToken(getAccessTokenSilently, getAccessTokenWithPopup)
   }
+
+  return <>{children}</>
+}
+
+export const RequireAuth: React.FC<Props> = ({ children, redirect }) => {
+  return (
+    <ErrorBoundary>
+      <Suspense fallback={<h6>Please Wait</h6>}>
+        <AsyncComponent redirect={redirect}>{children}</AsyncComponent>
+      </Suspense>
+    </ErrorBoundary>
+  )
 }
