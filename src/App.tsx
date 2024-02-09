@@ -10,7 +10,7 @@ import { DefaultLayout } from './layouts/default'
 import { RequireAuth } from './components/atoms/RequireAuth'
 import { SignIn } from './pages/signin'
 import { OpenAPI } from './apis/analysis'
-import { GamesIndex } from './pages/games'
+import { StatisticsIndex } from './pages/statistics'
 
 const SentryRoutes = Sentry.withSentryReactRouterV6Routing(Routes)
 
@@ -33,7 +33,7 @@ function App() {
                 index
                 element={
                   <RequireAuth redirect="/signin">
-                    <GamesIndex />
+                    <StatisticsIndex />
                   </RequireAuth>
                 }
               />
